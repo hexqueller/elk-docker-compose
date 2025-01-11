@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   es01:
-    image: elasticsearch:8.16.2
+    image: elasticsearch:${ELASTIC_VERSION}
     container_name: es01
     environment:
       - node.name=es01
@@ -10,7 +10,7 @@ services:
       - discovery.seed_hosts=es02,es03
       - cluster.initial_master_nodes=es01,es02,es03
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ES_JAVA_OPTS=-Xms${JAVA_MEMORY} -Xmx${JAVA_MEMORY}"
       - xpack.security.enabled=false
     ulimits:
       memlock:
@@ -24,7 +24,7 @@ services:
       - elastic
 
   es02:
-    image: elasticsearch:8.16.2
+    image: elasticsearch:${ELASTIC_VERSION}
     container_name: es02
     environment:
       - node.name=es02
@@ -32,7 +32,7 @@ services:
       - discovery.seed_hosts=es01,es03
       - cluster.initial_master_nodes=es01,es02,es03
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ES_JAVA_OPTS=-Xms${JAVA_MEMORY} -Xmx${JAVA_MEMORY}"
       - xpack.security.enabled=false
     ulimits:
       memlock:
@@ -44,7 +44,7 @@ services:
       - elastic
 
   es03:
-    image: elasticsearch:8.16.2
+    image: elasticsearch:${ELASTIC_VERSION}
     container_name: es03
     environment:
       - node.name=es03
@@ -52,7 +52,7 @@ services:
       - discovery.seed_hosts=es01,es02
       - cluster.initial_master_nodes=es01,es02,es03
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ES_JAVA_OPTS=-Xms${JAVA_MEMORY} -Xmx${JAVA_MEMORY}"
       - xpack.security.enabled=false
     ulimits:
       memlock:
@@ -64,7 +64,7 @@ services:
       - elastic
 
   kibana:
-    image: kibana:8.16.2
+    image: kibana:${ELASTIC_VERSION}
     container_name: kibana
     environment:
       - ELASTICSEARCH_HOSTS=http://es01:9200
